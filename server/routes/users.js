@@ -22,35 +22,36 @@ router.get('/login', (req, res) => {
 //     })
 // });
 
-router.post('/login',
-    // passport.authenticate('local', { 
-    //     successRedirect: '/users/login/success',
-    //     failureRedirect: '/users/login/fail' 
-    // })
-    //(req,res)=>res.send('suddd')
-
-    passport.authenticate('local',{failureRedirect:'/users/login/fail'}),
-    function(req, res) {
-        console.log('yeee');
-        res.redirect('/users/login/success');
-    }
-);
-
-router.get('/login/success', (req, res) => {res.send('successssss')});
-router.get('/login/fail', (req, res) => {res.send('failllllll')});
-
-passport.serializeUser((user, done) => {
-    done(null, user.id);
+router.get('/loggedin', (req, res)=>{
+    
 })
 
-passport.deserializeUser((id, done) => {
+router.post('/login',
+    passport.authenticate('local', { 
+        successRedirect: '/users/login/success', 
+        failureRedirect: '/users/login/fail'
+    })
+);
+
+router.get('/login/success', (req, res) => {res.send(true)});
+router.get('/login/fail', (req, res) => {res.send(false)});
+
+router.get('/logout', (req, res) => {
+    req.logout();
+    res.end();
+});
+
+passport.serializeUser((user, done) => {
+    done(null, user);
+})
+
+passport.deserializeUser((user, done) => {
     /*
     User.findById(id, (err, user) => {
         done(err, user);
     })
     */
    var user = {
-        id: 'asdfghjkl',
         username: 'admin',
         password: 'hash_admin',
     };  
@@ -59,8 +60,11 @@ passport.deserializeUser((id, done) => {
 
 passport.use(new LocalStrategy(
     function(username, password, done)  {
-        console.log('opop');
-        return done(null, {username: username, password: password });
+        if(username === 'admin'){
+            return done(null, {username: username, password: password });
+        }else{
+            return done(null, false);
+        }        
     }
 ));
 

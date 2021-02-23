@@ -1,7 +1,7 @@
 import React from 'react';
+import axios from 'axios';
 
-const Header = () => {
-    const [loggedin, setLoggedin] = React.useState(true);
+const Header = ({loggedin}) => {
 
     return(
         <div className="header" style={{backgroundColor:'lightblue'}}>
@@ -21,19 +21,19 @@ const Dashboard = () => {
 
 const Register = () => {
     return(
-        <div className="header__register"><a href="/register">register</a></div>
+        <div className="header__register"><a href="/users/register">register</a></div>
     );
 }
 
 const Login = () => {
     return(
-        <div className="header__login"><a href="/login">login</a></div>
+        <div className="header__login"><a href="/users/login">login</a></div>
     );
 }
 
 const Logout = () => {
     return(
-        <div className="header__logout"><a href="/logout">logout</a></div>
+        <div className="header__logout"><a href="/users/logout">logout</a></div>
     );
 }
 

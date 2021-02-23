@@ -14,51 +14,29 @@ const Login =  () => {
     // });
 
     const loginSubmit = (e) => {
-        //e.preventDefault();
+        e.preventDefault();
         console.log({username});
         console.log({password});
         const user = {username: username, password: password};
         axios.post('/users/login', user)
             .then((res) => {
-                //setLoggedin(res.data);
-                console.log(res);
-            })
-            .then(()=> {
-                if(loggedin){
-                    <Redirect to="/dashboard" />
-                }
+                setLoggedin(res.data);
+                //console.log(res);
             })
     }
 
-    // const LoginPage = () => {
-    //     return(
-    //         <div className="login">
-    //             <input key="some" type="text" value={aaa} onChange={e=>setaaa(e.target.value)} placeholder="daa" />
-    //             {loggedin? <div>yeah</div>:<div>nope</div>}
-    //             <div className="login__form">
-    //                 <form onSubmit={loginSubmit} >
-    //                     <input type="text" value={username} onChange={e=>setUsername(e.target.value)} placeholder="username" />
-    //                     <input type="password"  value={password} onChange={e=>setPassword(e.target.value)} placeholder="password" />
-    //                     <button type="submit" value="submit">Enter</button>
-    //                 </form>
-    //             </div>
-    //         </div>
-    //     );
-    // }
+    
     if(loggedin) {
         return(
-            <Route path="/">
-                <Redirect to="/dashboard/todolist" />
-            </Route>   
+            <Redirect to="/dashboard" /> 
         );
     }else return(
         <div className="login">
-            <input key="some" type="text" value={aaa} onChange={e=>setaaa(e.target.value)} placeholder="daa" />
-            {loggedin? <div>yeah</div>:<div>nope</div>}
+            <div>Login</div>
             <div className="login__form">
                 <form onSubmit={loginSubmit} >
-                    <input type="text" value={username} onChange={e=>setUsername(e.target.value)} placeholder="username" />
-                    <input type="password"  value={password} onChange={e=>setPassword(e.target.value)} placeholder="password" />
+                    <input type="text" name="username" value={username} onChange={e=>setUsername(e.target.value)} placeholder="username" />
+                    <input type="password"  name="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="password" />
                     <button type="submit" value="submit">Enter</button>
                 </form>
             </div>

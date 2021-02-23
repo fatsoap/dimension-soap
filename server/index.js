@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 
 const users = require('./routes/users');
+const index = require('./routes/index');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,7 +19,8 @@ app.use(session({
     resave: true
 }));
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -27,17 +29,12 @@ app.use(passport.session());
 //     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 //     next();
 // });
-
+app.use('/', index);
 app.use('/users', users);
-
-app.get('/api', (req, res) => {
-    res.json({ message: "Hello from server!" });
-});
 
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-    //res.sendFile('client/public/index.html');
 });
 
 app.listen(PORT, ()=> console.log(`Sever listening on port ${PORT}`) );

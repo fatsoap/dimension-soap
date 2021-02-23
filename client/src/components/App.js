@@ -4,9 +4,9 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 import Home from './Home';
 import Dashboard from './Dashboard';
-import Header from './Header';
 import Login from './Login';
 import Register from './Register';
+import Logout from './Logout';
 
 const App = () => {
 
@@ -17,15 +17,16 @@ const App = () => {
                     <Route path="/users/login" >
                         <Login />
                     </Route>
+                    <Route path="/users/logout" >
+                        <Logout />
+                    </Route>
                     <Route path="/users/register" >
                         <Register />
                     </Route>
                     <Route path="/dashboard" >
-                        <Header />
                         <Dashboard />
                     </Route>
                     <Route path="/" >
-                        <Header />
                         <Home />
                     </Route>                
                 </Switch>
