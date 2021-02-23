@@ -9,13 +9,6 @@ import Login from './Login';
 import Register from './Register';
 
 const App = () => {
-    //const [data, setData] = React.useState('Loading...');
-
-    // React.useEffect(() => {
-    //     const get = axios.get('/api')
-    //         .then((res)=> res.data.message)
-    //         .then((data)=> setData(data+' using then'));
-    // }, []);
 
     return(
         <div>
