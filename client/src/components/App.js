@@ -14,10 +14,10 @@ const App = () => {
         <div>
             <Router>
                 <Switch>
-                    <Route path="/login" >
+                    <Route path="/users/login" >
                         <Login />
                     </Route>
-                    <Route path="/register" >
+                    <Route path="/users/register" >
                         <Register />
                     </Route>
                     <Route path="/dashboard" >
