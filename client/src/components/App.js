@@ -19,7 +19,6 @@ const App = () => {
 
     return(
         <div>
-            <Header />
             <Router>
                 <Switch>
                     <Route path="/login" >
@@ -29,9 +28,11 @@ const App = () => {
                         <Register />
                     </Route>
                     <Route path="/dashboard" >
+                        <Header />
                         <Dashboard />
                     </Route>
                     <Route path="/" >
+                        <Header />
                         <Home />
                     </Route>                
                 </Switch>

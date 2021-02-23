@@ -1,15 +1,21 @@
 import React from 'react';
 
 const Header = () => {
-    const [userID, serUserID] = React.useState(null);
+    const [loggedin, setLoggedin] = React.useState(true);
 
     return(
         <div className="header" style={{backgroundColor:'lightblue'}}>
             <div className="header__logo">
                 <a href="/"><img alt="logo" /></a>
             </div>
-            {userID? <div><Login /></div>:<div><Register /> <Login /> </div> }
+            {loggedin? <div><Dashboard /><Logout /> </div>:<div><Login /><Register /></div> }
         </div>
+    );
+}
+
+const Dashboard = () => {
+    return(
+        <div className="header__dashboard"><a href="/dashboard">dashboard</a></div>
     );
 }
 
