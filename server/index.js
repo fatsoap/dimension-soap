@@ -5,6 +5,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+require('dotenv').config()
 
 const users = require('./routes/users');
 const index = require('./routes/index');

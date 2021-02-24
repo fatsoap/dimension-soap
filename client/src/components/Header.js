@@ -8,7 +8,8 @@ const Header = ({loggedin}) => {
             <div className="header__logo">
                 <a href="/"><img alt="logo" /></a>
             </div>
-            {loggedin? <div><Dashboard /><Logout /> </div>:<div><Login /><Register /></div> }
+            <Dashboard />
+            {loggedin? <div><Logout /> </div>:<div><Login /><Register /></div> }
         </div>
     );
 }

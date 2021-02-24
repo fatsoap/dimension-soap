@@ -7,8 +7,12 @@ const Home =  () => {
     const [loggedin, setLoggedin] = React.useState(false);
 
     React.useEffect(()=>{
+        let isMounted = false;
         axios.get('/loggedin')
-            .then( (res) => setLoggedin(res.data) );
+            .then( (res) => {
+                if(isMounted) setLoggedin(res.data);
+            });
+        return () => { isMounted = false };
     });
 
     return(

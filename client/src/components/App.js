@@ -4,9 +4,9 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 import Home from './Home';
 import Dashboard from './Dashboard';
-import Login from './Login';
-import Register from './Register';
-import Logout from './Logout';
+import Login from './users/Login';
+import Register from './users/Register';
+import Logout from './users/Logout';
 
 const App = () => {
 

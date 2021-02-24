@@ -3,24 +3,12 @@ const router = express.Router();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-//const User = require('../models/user');
+const User = require('../models/user');
 
 router.get('/login', (req, res) => {
     res.send('from server');
 });
 
-// router.post('/login',(req, res, next) => {
-//     //passport.authenticate('local'),
-//     passport.authenticate('local', (err, user, info) => {
-//         if(err) {return next(err);}
-//         if(!user) {return res.send('no user')}
-//         res.logIn(user,  (err) => {
-//             if(err) {return next(err);}
-//             return res.send('good');
-//         });
-    
-//     })
-// });
 
 router.get('/loggedin', (req, res)=>{
     
@@ -41,30 +29,50 @@ router.get('/logout', (req, res) => {
     res.end();
 });
 
-passport.serializeUser((user, done) => {
-    done(null, user);
+router.post('/register', (req, res) => {
+    var newUser = new User({
+        username: req.body.username,
+        password: req.body.password,
+        password2: req.body.password2,
+        email: req.body.email,
+        animal: req.body.animal
+    });
+    console.log(newUser);
+    User.createUser(newUser, (err, user) => {
+        if(err) throw err;
+        else{
+            res.send({registered: true});
+        }            
+    })
 })
 
-passport.deserializeUser((user, done) => {
-    /*
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+})
+
+passport.deserializeUser((id, done) => {
     User.findById(id, (err, user) => {
         done(err, user);
     })
-    */
-   var user = {
-        username: 'admin',
-        password: 'hash_admin',
-    };  
-   done(null, user);
+    
 })
 
 passport.use(new LocalStrategy(
     function(username, password, done)  {
-        if(username === 'admin'){
-            return done(null, {username: username, password: password });
-        }else{
-            return done(null, false);
-        }        
+        User.getUserByUsername(id, (err, user) => {
+            if(err) throw err;
+            if(!user){
+                return done(null, false); //wrong username
+            }
+            User.comparePassword(password, user.password, (err, isMatch) => {
+                if(err) return done(err);
+                if(isMatch){
+                    return done(null, user);
+                } else {
+                    return done(null, false); //wrong password
+                }
+            })
+        })     
     }
 ));
 

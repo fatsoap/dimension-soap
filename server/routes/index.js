@@ -8,10 +8,10 @@ router.get('/loggedin', ensureAuthenticated, function(req, res, next) {
 
 function ensureAuthenticated(req, res, next){
 	if(req.isAuthenticated()){
-        console.log('yes');
+        //console.log('yes');
 		res.send(true);
 	} else {
-        console.log('no');
+        //console.log('no');
 	    res.send(false);
     }
 }
