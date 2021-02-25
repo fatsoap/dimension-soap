@@ -15,9 +15,9 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 app.use(session({
-    secret: "soaps", 
-    saveUninitialized: true, 
-    resave: true
+    secret: "soaps",  // secret: 必要欄位，用來註冊 session ID cookie 的字串。如此將增加安全性，避免他人在瀏覽器中偽造 cookie。
+    saveUninitialized: true, // saveUninitialized: 將 uninitialized session（新的、未被變更過的） 儲存在 session store 中。
+    resave: true // resave: 不論是否 request 的過程中有無變更都重新將 session 儲存在 session store。
 }));
 app.use(cookieParser());
 app.use(bodyParser.json());

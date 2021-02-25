@@ -20,16 +20,14 @@ const Register =  () => {
             email: email,
             password: password,
             password2: password2,
-            animal: animal
+            animal: animal,
+            profileimage: 'default_pic.png'
         };
         axios.post('/users/register', user)
             .then((res)=>{
-                if(res.data.registered){
-                    setRegistered(true);
-                } else {
-                    setErrormsg(res.data.errmsg);
-                }
-            })
+                setRegistered(res.data.registered);
+                setErrormsg(res.data.errmessage);
+            });
     }
     if(registered){
         return(
@@ -44,7 +42,7 @@ const Register =  () => {
             <div>
                 <Header loggedin={false}/>
                 <div>Register page here</div>
-                {errormsg===''? <div></div>: <div>{errormsg}</div>}
+                <div>{errormsg}</div>
                 <form onSubmit={onSubmit} >
                     <input type="text" value={username} name="username" placeholder="username" onChange={(e)=>setUsername(e.target.value) } />
                     <input type="text" value={email} name="email" placeholder="email" onChange={(e)=>setEmail(e.target.value) } />

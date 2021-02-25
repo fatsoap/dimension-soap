@@ -6,6 +6,7 @@ mongoose.connect(DATABASE_URI, {useNewUrlParser: true, useUnifiedTopology: true}
 const db = mongoose.connection;
 
 db.once('open', () => {
+    console.log(DATABASE_URI);
     console.log('Database open success.');
 })
 
@@ -14,11 +15,18 @@ db.on('error', (err) => {
 })
 
 const UserSchema = new mongoose.Schema({
-    name: String,
-    email: String,
+    username: {
+        type: String,
+        unique: true
+    },
+    email: {
+        type: String,
+        unique: true
+    },
     password: String,
-    animal: String
-})
+    animal: String,
+    profileimage: String
+});
 
 const User = module.exports = mongoose.model('User', UserSchema);
 
@@ -42,12 +50,22 @@ module.exports.comparePassword = function(candidatePassword, hash, callback){
     }
 }
 
-module.exports.createUser = function(newUser, callback){
+module.exports.createUser = async function(newUser, callback){
 	// bcrypt.genSalt(10, function(err, salt) {
     // 	bcrypt.hash(newUser.password, salt, function(err, hash) {
    	// 		newUser.password = hash;
    	// 		newUser.save(callback);
     // 	});
 	// });
-    newUser.save(callback);
+    let user = await User.findOne({username: newUser.username });
+    if(user){
+        callback('username has been used.', null);
+    } else {
+        user = await User.findOne({email: newUser.email});
+        if(user){
+            callback('email has been used.', null);
+        } else {
+            newUser.save(callback); 
+        }        
+    }    
 }

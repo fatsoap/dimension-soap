@@ -17,12 +17,18 @@ router.get('/loggedin', (req, res)=>{
 router.post('/login',
     passport.authenticate('local', { 
         successRedirect: '/users/login/success', 
-        failureRedirect: '/users/login/fail'
+        failureRedirect: '/users/login/fail',
+        failureMessage: true,
     })
 );
 
-router.get('/login/success', (req, res) => {res.send(true)});
-router.get('/login/fail', (req, res) => {res.send(false)});
+router.get('/login/success', (req, res) => {res.send({success: true, message: ''})});
+router.get('/login/fail', (req, res) => {
+    console.log(req.session.passport);
+    var message = req.session.messages[0];
+    req.session.messages = [];
+    res.send({success: false, message: message})
+});
 
 router.get('/logout', (req, res) => {
     req.logout();
@@ -30,18 +36,12 @@ router.get('/logout', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-    var newUser = new User({
-        username: req.body.username,
-        password: req.body.password,
-        password2: req.body.password2,
-        email: req.body.email,
-        animal: req.body.animal
-    });
-    console.log(newUser);
+    var newUser = new User(req.body);
     User.createUser(newUser, (err, user) => {
-        if(err) throw err;
-        else{
-            res.send({registered: true});
+        if(err){
+            res.send({registered: false, errmessage: err});
+        } else {
+            res.send({registered: true, errmessage: ''});
         }            
     })
 })
@@ -57,22 +57,29 @@ passport.deserializeUser((id, done) => {
     
 })
 
-passport.use(new LocalStrategy(
-    function(username, password, done)  {
-        User.getUserByUsername(id, (err, user) => {
-            if(err) throw err;
-            if(!user){
-                return done(null, false); //wrong username
-            }
-            User.comparePassword(password, user.password, (err, isMatch) => {
-                if(err) return done(err);
-                if(isMatch){
-                    return done(null, user);
+passport.use(new LocalStrategy({
+        usernameField: 'username',
+        passwordField: 'password',
+        passReqToCallback: true
+    },
+    function(req, username, password, done)  {
+        User.findOne({username: username})
+            .exec((err, user) => {
+                if(err){
+                    throw err;
+                } else if(!user) {
+                    return done(null, false, {message: "wrong username"}); //wrong username
                 } else {
-                    return done(null, false); //wrong password
+                    User.comparePassword(password, user.password, (err, isMatch) => {
+                        if(err) return done(err);
+                        if(isMatch){
+                            return done(null, user);
+                        } else {
+                            return done(null, false, {message: "wrong password"}); //wrong password
+                        }
+                    });
                 }
-            })
-        })     
+            });
     }
 ));
 

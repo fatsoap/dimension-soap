@@ -17,6 +17,7 @@ const Dashboard = () => {
                     setLoading(false);
                 }
             });
+            console.log("axios");
         return () => { isMounted = false };
     });
     if(loggedin){
