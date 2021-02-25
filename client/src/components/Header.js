@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from './flatlogo.png';
 import axios from 'axios';
 
 const Header = ({loggedin}) => {
@@ -6,7 +7,7 @@ const Header = ({loggedin}) => {
     return(
         <div className="header" style={{backgroundColor:'lightblue'}}>
             <div className="header__logo">
-                <a href="/"><img alt="logo" /></a>
+                <a href="/"><img alt="logo" src={logo} /></a>
             </div>
             <Dashboard />
             {loggedin? <div><Logout /> </div>:<div><Login /><Register /></div> }
