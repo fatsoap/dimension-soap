@@ -2,10 +2,11 @@ import axios from 'axios';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Logout = () => {
+const Logout = ({ login, onLoginChange }) => {
 
     const logout = () => {
         axios.get('/users/logout');
+        onLoginChange(false);
     }
 
     return(

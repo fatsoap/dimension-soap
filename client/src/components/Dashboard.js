@@ -4,32 +4,23 @@ import { Redirect  } from 'react-router-dom';
 import Header from './Header';
 import Loading from './Loading';
 
-const Dashboard = () => {
+const Dashboard = ({ login }) => {
     const [loggedin, setLoggedin] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
 
-    React.useEffect(()=>{
-        let isMounted = true;
-        axios.get('/loggedin')
-            .then( (res) => {
-                if(isMounted){
-                    setLoggedin(res.data);
-                    setLoading(false);
-                }
-            });
-            console.log("axios");
-        return () => { isMounted = false };
-    });
-    if(loggedin){
-        return(
-            <div>
-                <Header loggedin={loggedin}/>
-                <div>Dashboard here</div>
-            </div>
-        );
-    }else if(loading){
-        return(<Loading />);
-    }else {
+ 
+    if(login){
+        if(loading){
+            return(<Loading />)
+        } else {
+            return(
+                <div>
+                    <Header login={login}/>
+                    <div>Dashboard here</div>
+                </div>
+            );
+        }
+    } else {
         return(<Redirect  to="/users/login" />)
     }
     

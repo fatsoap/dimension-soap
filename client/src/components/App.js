@@ -9,25 +9,30 @@ import Register from './users/Register';
 import Logout from './users/Logout';
 
 const App = () => {
+    const [login, setLogin] = React.useState(false);
 
+    const onLoginChange = (status) => {
+        setLogin(status);
+    }
+  
     return(
         <div>
             <Router>
                 <Switch>
                     <Route path="/users/login" >
-                        <Login />
+                        <Login onLoginChange={onLoginChange} login={login} />
                     </Route>
                     <Route path="/users/logout" >
-                        <Logout />
+                        <Logout onLoginChange={onLoginChange} login={login} />
                     </Route>
                     <Route path="/users/register" >
                         <Register />
                     </Route>
                     <Route path="/dashboard" >
-                        <Dashboard />
+                        <Dashboard login={login} />
                     </Route>
                     <Route path="/" >
-                        <Home />
+                        <Home login={login} />
                     </Route>                
                 </Switch>
             </Router>
