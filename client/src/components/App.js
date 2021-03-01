@@ -6,28 +6,23 @@ import Home from './Home';
 import Dashboard from './Dashboard';
 import Login from './users/Login';
 import Register from './users/Register';
-import Logout from './users/Logout';
+import Header from './Header';
+
+import { Container } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
-    const [login, setLogin] = React.useState(false);
+    const [login, setLogin] = React.useState(true);
 
     const onLoginChange = (status) => {
         setLogin(status);
     }
   
     return(
-        <div>
-            <Router>
+        <Container>      
+            <Router>  
+                <Header onLoginChange={onLoginChange} login={login} />              
                 <Switch>
-                    <Route path="/users/login" >
-                        <Login onLoginChange={onLoginChange} login={login} />
-                    </Route>
-                    <Route path="/users/logout" >
-                        <Logout onLoginChange={onLoginChange} login={login} />
-                    </Route>
-                    <Route path="/users/register" >
-                        <Register />
-                    </Route>
                     <Route path="/dashboard" >
                         <Dashboard login={login} />
                     </Route>
@@ -36,7 +31,7 @@ const App = () => {
                     </Route>                
                 </Switch>
             </Router>
-        </div>
+        </Container>
     )
 }
 

@@ -1,29 +1,27 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import { Redirect  } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Header from './Header';
 import Loading from './Loading';
 
 const Dashboard = ({ login }) => {
-    const [loggedin, setLoggedin] = React.useState(false);
-    const [loading, setLoading] = React.useState(true);
+    const [loading, setLoading] = React.useState(false);
 
- 
-    if(login){
-        if(loading){
-            return(<Loading />)
-        } else {
-            return(
-                <div>
-                    <Header login={login}/>
-                    <div>Dashboard here</div>
-                </div>
-            );
-        }
-    } else {
-        return(<Redirect  to="/users/login" />)
+    if(!login){
+        return(
+            <Redirect to="/"></Redirect>
+        )
     }
     
+    if(loading){
+        return(<Loading />)
+    } else {
+        return(
+            <div className="">
+                <div>Dashboard here</div>
+            </div>
+        );
+    }    
 }
 
 

@@ -1,53 +1,80 @@
 import React from 'react';
 import logo from './flatlogo.png';
+import { Link } from "react-router-dom";
 import axios from 'axios';
+import Login from './users/Login';
+import Register from './users/Register';
+import { Navbar, Nav, Button } from 'react-bootstrap';
 
-const Header = ({loggedin}) => {
+const Header = ({login, onLoginChange }) => {
 
     return(
-        <div className="navbar navbar-expand-lg navbar-light bg-light" >
-            <div className="container-fluid"> 
-            <div className="navbar-brand">
-                <a href="/"><img alt="logo" src={logo} /></a>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a className="nav-link active" href="/dashboard">dashboard</a></li>
-                    <li class="nav-item"><a href="/users/register">register</a></li>
-                    <li class="nav-item"><a href="/users/login">login</a></li>
-                    <li class="nav-item"><a href="/users/logout">logout</a></li>
-                    <li class="nav-item"></li>
-                </ul>
-            </div>
-            <Dashboard />
-            {loggedin? <div><Logout /> </div>:<div><Login /><Register /></div> }
-            </div>
-        </div>
+        <Navbar bg="light" expand="lg">
+            <Navbar.Brand href="/"><img alt="logo" src={logo} /></Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="mr-auto">
+                    <Dashboard login={login} />
+                    <LoginModal login={login} onLoginChange={onLoginChange} />
+                    <RegisterModal login={login} onLoginChange={onLoginChange} />
+                    <Logout login={login} onLoginChange={onLoginChange} />
+                </Nav>      
+            </Navbar.Collapse>
+        </Navbar>
     );
 }
 
-const Dashboard = () => {
+// className="btn btn-primary"
+
+const Dashboard = ({ login }) => {
     return(
-        <div className="header__dashboard"></div>
-    );
+        <Nav.Item style={login? {} : {display:"none"}}>
+            <Button variant="light" >
+                <Link to="/dashboard" style={{ textDecoration: 'none', color: "black" }}>
+                    Dashboard
+                </Link>
+            </Button>
+        </Nav.Item>
+    )
 }
 
-const Register = () => {
+const LoginModal = ({ login, onLoginChange }) => {
     return(
-        <div className="header__register"></div>
+        <Nav.Item style={login? {display:"none"} : {} }>
+            <Login onLoginChange={onLoginChange} />
+        </Nav.Item>
     );
-}
+};
 
-const Login = () => {
+const RegisterModal = ({ login, onLoginChange }) => {
     return(
-        <div className="header__login"></div>
+        <Nav.Item style={login? {display:"none"} : {} }>
+            <Register onLoginChange={onLoginChange} />
+        </Nav.Item>
     );
-}
+};
 
-const Logout = () => {
+
+
+const Logout = ({ login, onLoginChange }) => {
+    const logout = (e) => {
+        e.preventDefault();
+        onLoginChange(false);
+        axios.get('/users/logout');
+        
+    }
+
     return(
-        <div className="header__logout"></div>
+        <Nav.Item variant="light" style={login? {} : {display:"none"}}>
+            <Button variant="light" onClick={logout} >
+                <Link to="/" style={{ textDecoration: 'none', color: "black" }}>
+                    Logout
+                </Link>
+            </Button>
+        </Nav.Item>
     );
-}
+};
+
+
 
 export default Header;

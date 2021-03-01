@@ -7,8 +7,7 @@ const Home =  ({ login }) => {
 
 
     return(
-        <div>
-            <Header login={login} />
+        <div className="">
             <div>Home page here</div>
         </div>
     );
