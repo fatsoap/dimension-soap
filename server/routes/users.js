@@ -39,9 +39,9 @@ router.post('/register', (req, res) => {
     var newUser = new User(req.body);
     User.createUser(newUser, (err, user) => {
         if(err){
-            res.send({registered: false, errmessage: err});
+            res.send({success: false, message: err});
         } else {
-            res.send({registered: true, errmessage: ''});
+            res.send({success: true, message: ''});
         }            
     })
 })
