@@ -5,6 +5,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+var methodOverride = require('method-override');
 require('dotenv').config()
 
 const users = require('./routes/users');
@@ -22,6 +23,7 @@ app.use(session({
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride("_method"));
 app.use(passport.initialize());
 app.use(passport.session());
 

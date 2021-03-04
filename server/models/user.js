@@ -1,12 +1,11 @@
-//MooseDB
+//Mongoose
 const mongoose = require('mongoose');
 const DATABASE_URI = process.env.DATABASE_URI;
-mongoose.connect(DATABASE_URI, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(DATABASE_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
 const db = mongoose.connection;
 
 db.once('open', () => {
-    console.log(DATABASE_URI);
     console.log('Database open success.');
 })
 

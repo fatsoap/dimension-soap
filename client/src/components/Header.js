@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import Login from './users/Login';
 import Register from './users/Register';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav, Button, OverlayTrigger, Tooltip, Card, Modal, Form } from 'react-bootstrap';
 
-const Header = ({login, onLoginChange }) => {
+const Header = ({login, onLoginChange, onUserChange, user }) => {
 
     return(
         <Navbar bg="light" expand="lg">
@@ -15,9 +15,10 @@ const Header = ({login, onLoginChange }) => {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                     <Dashboard login={login} />
-                    <LoginModal login={login} onLoginChange={onLoginChange} />
+                    <LoginModal login={login} onLoginChange={onLoginChange} onUserChange={onUserChange} />
                     <RegisterModal login={login} onLoginChange={onLoginChange} />
                     <Logout login={login} onLoginChange={onLoginChange} />
+                    <User user={user} />
                 </Nav>      
             </Navbar.Collapse>
         </Navbar>
@@ -38,10 +39,10 @@ const Dashboard = ({ login }) => {
     )
 }
 
-const LoginModal = ({ login, onLoginChange }) => {
+const LoginModal = ({ login, onLoginChange, onUserChange }) => {
     return(
         <Nav.Item style={login? {display:"none"} : {} }>
-            <Login onLoginChange={onLoginChange} />
+            <Login onLoginChange={onLoginChange} onUserChange={onUserChange} />
         </Nav.Item>
     );
 };
@@ -74,6 +75,35 @@ const Logout = ({ login, onLoginChange }) => {
         </Nav.Item>
     );
 };
+
+const User = ({ user }) => {
+    const [show, setShow] = React.useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    return(
+        <div>
+            <Button variant="light" onClick={handleShow}>
+                User
+            </Button>
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Body>
+                    <Form>  
+                        <Form.Group>
+                            <Form.Label>Author : {user.username}</Form.Label>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Email: {user.email}</Form.Label>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Animal: {user.animal}</Form.Label>
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+            </Modal>
+        </div>
+    );
+}
 
 
 

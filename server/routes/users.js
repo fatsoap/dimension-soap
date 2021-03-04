@@ -10,10 +10,6 @@ router.get('/login', (req, res) => {
 });
 
 
-router.get('/loggedin', (req, res)=>{
-    
-})
-
 router.post('/login',
     passport.authenticate('local', { 
         successRedirect: '/users/login/success', 
@@ -22,12 +18,34 @@ router.post('/login',
     })
 );
 
-router.get('/login/success', (req, res) => {res.send({success: true, message: ''})});
+router.get('/login/success', (req, res) => {
+    //console.log(req.user);
+    res.send({
+        success: true, 
+        message: '',
+        user: {
+            username: req.user.username,
+            email: req.user.email,
+            animal: req.user.animal,
+            profileimage: req.user.profileimage,
+        },
+    })
+});
+
 router.get('/login/fail', (req, res) => {
     console.log(req.session.passport);
     var message = req.session.messages[0];
     req.session.messages = [];
-    res.send({success: false, message: message})
+    res.send({
+        success: false, 
+        message: message,
+        user: {
+            username: 'Tourist',
+            email: 'Tourist',
+            animal: 'Tourist',
+            profileimage: 'Tourist',
+        },
+    });
 });
 
 router.get('/logout', (req, res) => {

@@ -30,8 +30,10 @@ class Login extends React.Component {
                 .then((res) => {
                     //console.log(res.data);
                     this.props.onLoginChange(res.data.success);
-                    this.setState({submitErr: 'res.data.message'});
+                    this.setState({submitErr: res.data.message});
                     if(res.data.success){
+                        console.log(this.state.submitErr);
+                        this.props.onUserChange(res.data.user);
                         this.handleClose();
                     }
                 })
