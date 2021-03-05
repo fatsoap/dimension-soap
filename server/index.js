@@ -21,8 +21,8 @@ app.use(session({
     resave: true // resave: 不論是否 request 的過程中有無變更都重新將 session 儲存在 session store。
 }));
 app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 app.use(passport.initialize());
 app.use(passport.session());

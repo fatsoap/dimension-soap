@@ -56,7 +56,7 @@ class Register extends React.Component {
             return null;
         } else {
             return(
-                <Alert variant="warning ">{this.state.submitErr}</Alert>
+                <Alert variant="warning" className="mt-2" >{this.state.submitErr}</Alert>
             );
         }
     }
@@ -66,7 +66,7 @@ class Register extends React.Component {
             return null;
         } else {
             return(
-                <Alert variant="danger">{this.validator.getErrorMessages().username}</Alert>
+                <Alert variant="danger" className="mt-2" >{this.validator.getErrorMessages().username}</Alert>
             );
         }
     }
@@ -76,7 +76,7 @@ class Register extends React.Component {
             return null;
         } else {
             return(
-                <Alert variant="danger">{this.validator.getErrorMessages().email}</Alert>
+                <Alert variant="danger" className="mt-2" >{this.validator.getErrorMessages().email}</Alert>
             );
         }
     }
@@ -86,17 +86,18 @@ class Register extends React.Component {
             return null;
         } else {
             return(
-                <Alert variant="danger">{this.validator.getErrorMessages().password}</Alert>
+                <Alert variant="danger" className="mt-2" >{this.validator.getErrorMessages().password}</Alert>
             );
         }
     }
 
     password2Valid = () => {
         if (this.validator.fieldValid('confirm password') || this.state.password2==='') {
-            return null;
+            if(this.state.password2 === this.state.password) return null;
+            else return <Alert variant="danger">Confirm password different</Alert>
         } else {
             return(
-                <Alert variant="danger">{this.validator.getErrorMessages()['confirm password']}</Alert>
+                <Alert variant="danger" className="mt-2" >{this.validator.getErrorMessages()['confirm password']}</Alert>
             );
         }
     }
@@ -106,7 +107,7 @@ class Register extends React.Component {
             return null;
         } else {
             return(
-                <Alert variant="danger">{this.validator.getErrorMessages().animal}</Alert>
+                <Alert variant="danger" className="mt-2" >{this.validator.getErrorMessages().animal}</Alert>
             );
         }
     }

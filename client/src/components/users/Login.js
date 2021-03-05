@@ -54,7 +54,7 @@ class Login extends React.Component {
             return null;
         } else {
             return(
-                <Alert variant="warning ">{this.state.submitErr}</Alert>
+                <Alert variant="warning " className="mt-2" >{this.state.submitErr}</Alert>
             );
         }
     }
@@ -65,7 +65,7 @@ class Login extends React.Component {
             return null;
         } else {
             return(
-                <Alert variant="danger">{this.validator.getErrorMessages().username}</Alert>
+                <Alert variant="danger" className="mt-2" >{this.validator.getErrorMessages().username}</Alert>
             );
         }
     }
@@ -76,7 +76,7 @@ class Login extends React.Component {
             return null;
         } else {
             return(
-                <Alert variant="danger">{this.validator.getErrorMessages().password}</Alert>
+                <Alert variant="danger" className="mt-2" >{this.validator.getErrorMessages().password}</Alert>
             );
         }
     }
